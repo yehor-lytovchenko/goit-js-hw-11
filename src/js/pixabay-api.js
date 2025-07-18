@@ -2,7 +2,7 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import axios from 'axios';
 
-function getImagesByQuery(query) {
+export function getImagesByQuery(query) {
   const BASE_URL = 'https://pixabay.com/api/';
   const API_KEY = '51379223-9a96b00f02e12c8a533ab27fa';
 
@@ -14,15 +14,10 @@ function getImagesByQuery(query) {
     safesearch: true,
   });
 
-  axios
+  return axios
     .get(BASE_URL, { params })
-    .then(response => {
-      return response.data.hits;
-    })
+    .then(response => response.data)
     .catch(error => {
-      iziToast.error({
-        message:
-          'Sorry, there are no images matching your search query. Please try again!',
-      });
+      throw error;
     });
 }
